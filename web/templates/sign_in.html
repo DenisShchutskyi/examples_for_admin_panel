@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='js_menu/style.css') }}">
+	<meta charset="UTF-8">
+	<title>вход</title>
+	<link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css'>
+	{#<link rel="icon" href="http://vladmaxi.net/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="http://vladmaxi.net/favicon.ico" type="image/x-icon">#}
+</head>
+
+<body>
+{% if message %}
+  <div style="text-align: center;"><h1 style="color: red">{{message}}</h1></div>
+{% endif %}
+<div class="box">
+  <nav id="tabs" class="tabs">
+    <a id="tabLogin" class="iconLogin active blueBox" title="Войти"></a>
+    <!--<a id="tabRegister" class="iconRegister greenBox" title="Регистрация"></a>-->
+    {#<a id="tabForgot" class="iconForgot redBox" title="Забыл пароль?"></a>#}
+  </nav>
+
+  <div class="containerWrapper">
+
+    <!-- login container -->
+    <div id="containerLogin" class="tabContainer active">
+      <form action="{{url_for('sign_in')}}" method="post" >
+      <h2 class="loginTitle">Авторизация</h2>
+      <div class="loginContent">
+        <div class="inputWrapper">
+          <input type="text" placeholder="Логин" name="login"  pattern="[A-Za-z0-9]{5,}" />
+        </div>
+        <div class="inputWrapper">
+          <input type="password" placeholder="Пароль" name="password"  pattern="[A-Za-z0-9]{5,}" />
+        </div>
+      </div>
+      <button class="blueBox"><span class="iconLogin"></span> ВОЙТИ</button>
+      <div class="clear"></div>
+    </form>
+    </div>
+
+    <!-- register container -->
+  <!--  <div id="containerRegister" class="tabContainer">
+      <form action="do some action here!">
+        <h2 class="loginTitle">Регистрация</h2>
+        <div class="registerContent">
+          <div class="inputWrapper">
+            <input type="text" placeholder="Ваше имя" />
+          </div>
+          <div class="inputWrapper">
+            <input type="password" placeholder="Ваш email"/>
+          </div>
+        </div>
+        <button class="greenBox"><span class="iconRegister"></span> Зарегистрироваться</button>
+        <div class="clear"></div>
+      </form>
+    </div>
+    <div class="clear"></div>-->
+
+    <!-- forgot container -->
+    <div id="containerForgot" class="tabContainer">
+      <form action="do some action here!">
+        <h2 class="loginTitle">Восстановления пароля</h2>
+        <div class="loginContent">
+          <div class="inputWrapper">
+            <input type="text" placeholder="Ваш email" />
+          </div>
+          <div class="placeholder"></div>
+        </div>
+        <button class="redBox"><span class="iconForgot"></span> Восстановить</button>
+        <div class="clear"></div>
+      </form>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+ <script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+</body>
+</html>

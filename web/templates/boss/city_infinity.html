@@ -1,0 +1,122 @@
+{% extends "boss/layout_boss.html" %}
+{% block heads %}infinity scroll{% endblock %}
+{% block scripts %}
+    <script>
+      var next_page = {"next_page": 0, "is_filter": false};
+  $(document).ready(function(){
+  if( next_page["is_filter"]==false) {
+                   $.ajax({
+              type: 'GET',
+              url: '{{ url_page }}/0',
+              data: false,
+              contentType: false,
+              cache: false,
+              processData: false,
+              async: false,
+              success: function(data) {
+
+                for (i = 0; i < 40; i++){
+
+                 if (data["data"][i] !== undefined){
+                        var tr = document.createElement('tr');
+                        //id
+                        var th = document.createElement('td');
+                        var text = document.createTextNode(data["data"][i][0]);
+
+                        th.appendChild(text);
+                        tr.appendChild(th);
+
+                        // title
+                        var th = document.createElement('td');
+                        var text = document.createTextNode(data["data"][i][1]);
+
+                        th.appendChild(text);
+                        tr.appendChild(th);
+
+
+
+                        document.getElementById('user_list_js').appendChild(tr);
+
+                      } else {
+
+                       break;
+                      }
+                }
+
+                next_page["next_page"] += 1;
+                block = false;
+              },
+              });
+
+  } else {}
+
+});
+
+var block = false;
+
+$(window).scroll(function () {
+
+                    if($(window).height() + $(window).scrollTop() >= $(document).height() && !block) {
+                        block = true;
+
+ if(next_page["is_filter"]==false){
+                        $.ajax({
+                type: 'GET',
+                url: '{{ url_page }}/' + next_page["next_page"],
+                data: false,
+                contentType: false,
+                cache: false,
+                processData: false,
+                async: false,
+                success: function(data) {
+
+                for (i = 0; i < 40; i++){
+
+                 if (data["data"][i] !== undefined){
+                        var tr = document.createElement('tr');
+                        //id
+                        var th = document.createElement('td');
+                        var text = document.createTextNode(data["data"][i][0]);
+
+                        th.appendChild(text);
+                        tr.appendChild(th);
+
+                        // title
+                        var th = document.createElement('td');
+                        var text = document.createTextNode(data["data"][i][1]);
+
+                        th.appendChild(text);
+                        tr.appendChild(th);
+
+
+
+                        document.getElementById('user_list_js').appendChild(tr);
+                        document.getElementById('user_list_js').appendChild(tr);
+                      } else {
+
+                       break;
+                      }
+                }
+
+                next_page["next_page"] += 1;
+                block = false;
+              },
+                });
+}
+
+        }
+
+});
+    </script>
+{% endblock %}
+{% block content %}
+    <table  border="3">
+    <tr>
+        <th>id</th>
+        <th>название</th>
+    </tr>
+    <tbody id="user_list_js">
+
+    </tbody>
+    </table>
+{% endblock %}

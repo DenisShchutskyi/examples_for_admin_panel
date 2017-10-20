@@ -1,0 +1,64 @@
+{% extends "boss/layout_boss.html" %}
+{% block heads %}вкладки{% endblock %}
+{% block scripts %}
+
+    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet"/>
+{% endblock %}
+{% block content %}
+    <main class="o-main">
+  <div class="o-container">
+
+    <div class="o-section" >
+      <div id="tabs" class="c-tabs no-js">
+        <div class="c-tabs-nav">
+          <a href="#" class="c-tabs-nav__link{#{% if request.cookies.get('tabs') %}{% if request.cookies.get('tabs') == '1' %} is-active{% endif %}{% else %} is-active{% endif %}#} is-active">
+              <i class="ion-ios-videocam"></i>
+
+            <span>I</span>
+          </a>
+          <a href="#" class="c-tabs-nav__link{#{% if request.cookies.get('tabs') %}{% if request.cookies.get('tabs') == '2' %} is-active{% endif %}{% endif %}#}">
+            <i class="ion-image"></i>
+            <span>II</span>
+          </a>
+          <a href="#" class="c-tabs-nav__link">
+            <i class = 'ion-ios-musical-note'></i>
+            <span>III</span>
+          </a>
+
+        </div>
+        <div class="c-tab{#{% if request.cookies.get('tabs') %}{% if request.cookies.get('tabs') == '1' %} is-active{% endif %}{% else %} is-active{% endif %} #} is-active" style="color: #1a1a1a">
+          <div class="c-tab__content" >
+              первая таька
+          </div>
+        </div>
+        <div class="c-tab{#{% if request.cookies.get('tabs') %}{% if request.cookies.get('tabs') == '2' %} is-active{% endif %}{% endif %}#}" style="color: #1a1a1a">
+          <div class="c-tab__content">
+              вторая табка
+          </div>
+        </div>
+        <div class="c-tab" style="color: #1a1a1a">
+          <div class="c-tab__content">
+            третья табка
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+</main>
+
+
+    <script src="{{ url_for('static', filename='tabs/src/tabs.js') }}"></script>
+
+    <script>
+  var myTabs = tabs({
+    el: '#tabs',
+    tabNavigationLinks: '.c-tabs-nav__link',
+    tabContentContainers: '.c-tab'
+  });
+
+  myTabs.init();
+</script>
+{% endblock %}

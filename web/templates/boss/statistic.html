@@ -1,0 +1,128 @@
+{% extends "boss/layout_boss.html" %}
+{% block heads %}график{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='statistic/highcharts.js') }}"></script>
+    <script src="{{ url_for('static', filename='statistic/exporting.js') }}"></script>
+    <script src="{{ url_for('static', filename='statistic/dark-unica.js') }}"></script>
+<script>
+
+function statistic() {
+var de = document.getElementById('date_en').value;
+    var ds = document.getElementById('date_st').value;
+
+    if (de != '' && ds != '' ) {
+
+        var form_data = new FormData($('#statistica')[0]);
+        $.ajax({
+            type: 'POST',
+            url: '{{ url_for('get_stat') }}',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            async: false,
+            success: function (data) {
+                //alert(data['code'])
+                if (data['code'] > 0){
+                    graph(data['categories'],data['series'])
+                }
+                else {
+                    container.innerHTML = 'нет данных для отображения'
+                }
+
+            }
+        });
+    }
+    //alert(period + '/' + id_mr + '/'+ id_mj + '/' + id_tr)
+
+}
+
+
+function graph( categories, series){ // encapsulate jQuery
+
+Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'стастистика продаж'
+    },
+    subtitle: {
+        text: 'по проведенным операциям'
+    },
+    xAxis: {
+        categories: categories,
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: '∑ (₴)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} ₴</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: series
+});
+document.getElementById('user_list_js').remove();
+var d = document.createElement('tbody');
+d.setAttribute('id','user_list_js');
+document.getElementById('i').appendChild(d);
+for ( i in series){
+    var tr = document.createElement('tr');
+
+    var th = document.createElement('td');
+    var text = document.createTextNode(series[i]['name']);
+    th.appendChild(text)
+    tr.appendChild(th)
+    var sum = 0;
+    for (j in series[i]['data']){
+        sum += series[i]['data'][j]
+    }
+    var th = document.createElement('td');
+    var text = document.createTextNode(sum);
+    th.appendChild(text)
+    tr.appendChild(th)
+     document.getElementById('user_list_js').appendChild(tr);
+}
+}
+</script>
+
+{% endblock %}
+{% block content %}
+
+     <form id="statistica">
+        <table>
+        <tr>
+            <td>
+                <select name="manager_j" id="manager_j" onchange="statistic()">
+                    <option value="0">все</option>
+                </select>
+            </td>
+            <td>
+                <select name="trademark" id="trademark" onchange="statistic()">
+                    <option value="0">все</option>
+                </select>
+            </td>
+
+        </tr>
+        </table>
+        период:<br>
+        <input type="date" name="date_st" id="date_st" onchange="statistic()" >
+        <input type="date" name="date_en" id="date_en" onchange="statistic()">
+    </form>
+
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="0"></div>
+{% endblock %}
