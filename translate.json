@@ -1,0 +1,14 @@
+{
+  "en": {
+    "Authorization":"Authorization",
+    "login": "Login",
+    "Password": "Password",
+    "Sign_in": "Sign in"
+  },
+  "ru": {
+    "Authorization":"Авторизация",
+    "login": "Логин",
+    "Password": "Пароль",
+    "Sign_in": "ВОЙТИ"
+  }
+}

@@ -8,9 +8,13 @@ import requests
 import hashlib
 import traceback
 from web.config_urls import url_index,\
-    url_sign_in
+    url_sign_in,\
+    url_logout,\
+    url_language
 from web.config_api import api_sign_in,\
     api_check_valid_data_user
+from function.json_read import read_json
+js = read_json('translate.json')
 
 app = Flask(__name__)
 
@@ -19,6 +23,7 @@ import web.views.view_google_maps
 import web.views.view_tabs
 import web.views.view_statistic
 import web.views.view_city
+import web.views.view_mail
 
 
 def index():
@@ -26,6 +31,7 @@ def index():
         sk = request.cookies.get('session_key')
         id_user = request.cookies.get('id_user')
         role = request.cookies.get('role')
+
         if sk and id_user and role:
             headers = {
                 'role': role,
@@ -42,7 +48,11 @@ def index():
                 return resp
     except:
         pass
-    return redirect(url_for('sign_in'))
+    resp = make_response(redirect(url_for('sign_in')))
+    lan = request.cookies.get('language')
+    if lan is None or lan == 'None':
+        resp.set_cookie('language', 'ru')
+    return resp
 
 
 def sign_in():
@@ -72,9 +82,37 @@ def sign_in():
             return resp
         else:
             message = res.json()['message']
-    return render_template('sign_in.html',
-                           message=message)
+    resp = make_response(render_template('sign_in.html',
+                                         message=message,
+                                         js=js))
+    # lan = request.cookies.get('language')
+    # if lan is None or lan == 'None':
+    #     resp.set_cookie('language', 'ru')
+    return resp
+
+
+def logout():
+    resp = make_response(redirect(url_for('sign_in')))
+    resp.set_cookie('session_key', '')
+    resp.set_cookie('id_user', '')
+    resp.set_cookie('role','')
+    return resp
+
+
+def language(lan):
+    resp = make_response(redirect(url_for('sign_in')))
+    if lan == 'ru' or lan == 'en':
+        resp.set_cookie('language', lan)
+    else:
+        resp.set_cookie('language', 'ru')
+    return resp
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('boss/404.html'), 404
 
 
 app.add_url_rule(url_index, 'index', index)
 app.add_url_rule(url_sign_in, 'sign_in', sign_in, methods=['POST', 'GET'])
+app.add_url_rule(url_logout, 'logout', logout)
+app.add_url_rule(url_language+'/<lan>', 'language', language)

@@ -10,6 +10,7 @@ def tabs():
 
 
 def popup():
+
     return render_template('boss/popup.html')
 
 

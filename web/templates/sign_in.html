@@ -11,6 +11,8 @@
 </head>
 
 <body>
+<div style="text-align: left;"><a style="text-decoration: none" href="{{ url_for('language',lan='ru') }}"><input  type="button" value="ru"></a><a href="{{ url_for('language',lan='en') }}" style="text-decoration: none"><input type="button" value="en"></a></div><br>
+
 {% if message %}
   <div style="text-align: center;"><h1 style="color: red">{{message}}</h1></div>
 {% endif %}
@@ -26,16 +28,16 @@
     <!-- login container -->
     <div id="containerLogin" class="tabContainer active">
       <form action="{{url_for('sign_in')}}" method="post" >
-      <h2 class="loginTitle">Авторизация</h2>
+      <h2 class="loginTitle">{{ js[request.cookies.get('language')]["Authorization"] }}</h2>
       <div class="loginContent">
         <div class="inputWrapper">
-          <input type="text" placeholder="Логин" name="login"  pattern="[A-Za-z0-9]{5,}" />
+          <input type="text" placeholder="{{ js[request.cookies.get('language')]["login"] }}" name="login"  pattern="[A-Za-z0-9]{5,}" />
         </div>
         <div class="inputWrapper">
-          <input type="password" placeholder="Пароль" name="password"  pattern="[A-Za-z0-9]{5,}" />
+          <input type="password" placeholder="{{ js[request.cookies.get('language')]["Password"] }}" name="password"  pattern="[A-Za-z0-9]{5,}" />
         </div>
       </div>
-      <button class="blueBox"><span class="iconLogin"></span> ВОЙТИ</button>
+      <button class="blueBox"><span class="iconLogin"></span> {{ js[request.cookies.get('language')]["Sign_in"] }}</button>
       <div class="clear"></div>
     </form>
     </div>
