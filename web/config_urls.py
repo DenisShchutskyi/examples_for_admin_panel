@@ -8,6 +8,7 @@ url_map_by_address = domen + '/map/lat_lan/by/address'
 url_map_by_click = domen + '/map/address/by/lat_lan'
 
 url_tabs = domen + '/tabs'
+url_popup = domen + '/popup'
 
 url_statistic = domen + '/statistic'
 url_get_statistic = domen + '/get/statistic'
