@@ -1,4 +1,4 @@
-from api import celery
+from api.__init__ import celery
 
 
 message_news_admin = {

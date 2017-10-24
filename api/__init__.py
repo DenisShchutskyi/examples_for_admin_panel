@@ -6,7 +6,7 @@ from config import path_celery
 
 app = Flask(__name__)
 
-from celery_.example_celery import example_celery
+# from celery_.example_celery import example_celery
 
 app.config['CELERY_BROKER_URL'] = path_celery
 app.config['CELERY_RESULT_BACKEND'] = path_celery

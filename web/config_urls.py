@@ -22,3 +22,5 @@ url_find_in_select = domen + '/find/in/select'
 url_find_in_select_multi = domen + '/find/multi/select/in/select'
 
 url_send_mail = domen + '/send/mail'
+
+url_open_box = domen + '/opened/box'
