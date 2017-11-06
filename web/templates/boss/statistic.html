@@ -1,6 +1,4 @@
-{% extends "boss/layout_boss.html" %}
-{% block heads %}график{% endblock %}
-{% block scripts %}
+
     <script src="{{ url_for('static', filename='statistic/highcharts.js') }}"></script>
     <script src="{{ url_for('static', filename='statistic/exporting.js') }}"></script>
     <script src="{{ url_for('static', filename='statistic/dark-unica.js') }}"></script>
@@ -100,9 +98,6 @@ for ( i in series){
 }
 </script>
 
-{% endblock %}
-{% block content %}
-
      <form id="statistica">
         <table>
         <tr>
@@ -125,4 +120,3 @@ for ( i in series){
     </form>
 
     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="0"></div>
-{% endblock %}

@@ -6,73 +6,168 @@
 
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+
        <script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
        <script src="{{ url_for('static', filename='js/jquery.maskedinput.min.js') }}"></script>
        <script src="{{ url_for('static', filename='js/decimal.js') }}"></script>
-       {#<script src="{{ url_for('static', filename='graphic/highcharts.js') }}"></script>
-       <script src="{{ url_for('static', filename='graphic/exporting.js') }}"></script>
-#}
-       <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet"/>
+      
+
+       <link rel="stylesheet" hfref="{{ url_for('static', filename='css/ionicons.min.css') }}">
        <link rel="stylesheet" href="{{ url_for('static', filename='tabs/style.min.css') }}">
        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
        <link rel="stylesheet" href="{{ url_for('static', filename='js_menu/style.css') }}">
 
-
+       <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.1/jquery.jgrowl.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.1/jquery.jgrowl.min.js"></script>
    {% endblock %}
-    {% block scripts %}{% endblock %}
 </head>
 <body>
+<script type="text/javascript">
+        function render_page(url){
+                   $.ajax({
+              type: 'GET',
+              url: url,
+              data: false,
+              contentType: false,
+              cache: false,
+              processData: false,
+              async: true,
+              success: function(data) {
+                                            $('#main_page_content').html(data);
+                                        }
+                            });
+        };
+  </script>
+
+<script type="text/javascript" charset="utf-8">
+            var socket = io.connect('http://' + document.domain + ':' + 5001);
+            socket.on('connect', function() {
+                socket.emit('connected');
+            });
+            
+             socket.on('message', function(data) {
+                console.log(data);
+                // data = {"header": "новая заявка №1", "text": "операция обмена", "group": "css selectot for delete",
+                //         "url": "url_for для переброски по клику"}
+                try {
+                          $.jGrowl(data["text"], 
+          						{
+          						header: data["header"],
+          						group: data["group"],
+          						sticky: true,
+          						animateOpen: {
+          							height: 'show'},
+          						click: function() {
+          						  render_page(data["url"]);
+                        $("div.jGrowl-notification.alert.ui-state-highlight.ui-corner-all." + data["group"]).trigger('jGrowl.close');
+          											}
+            					}
+            						);
+                    } catch(e) {console.log(e);}
+
+              });
+</script>
+
 
 
 <nav id="navigation">
   <ul>
-      <li><a href="{{ url_for('google_map') }}"><i class="ion-map"></i><span>google map(address)</span></a></li>
-            <li><a href="{{ url_for('google_map_lat_lan') }}"><i class="ion-map"></i><span>google map(lat_lan)</span></a></li>
-      {#<li class="dropdown" rel="1"><a href="#"><i class="ion-map"></i><span>google map</span>
-        <ul class="dropdown-1">
-            <li><a href="{{ url_for('google_map') }}"><i class="ion-map"></i><span>address</span></a></li>
-            <li><a href="{{ url_for('google_map_lat_lan') }}"><i class="ion-map"></i><span>lat_lan</span></a></li>
-        </ul></a></li>#}
+      <li>
+        <a onclick="render_page('{{ url_for('google_map') }}')">
+      	  <i class="ion-map"></i>
+      	  <span>google map(address)</span>
+        </a>
+      </li>
+      
+      <li>
+        <a onclick="render_page('{{ url_for('google_map_lat_lan') }}')">
+          <i class="ion-map"></i>
+          <span>google map(lat_lan)</span>
+        </a>
+      </li>
 
-      <li><a href="{{ url_for('tabs') }}"><i class="ion-ios-list"></i><span>many tabs</span></a></li>
-      <li><a href="{{ url_for('statistic') }}"><i class="ion-arrow-graph-up-right"></i><span>graphic</span></a></li>
-      <li><a href="{{ url_for('cites_inf') }}"><i class="ion-ios-list-outline"></i><span>infinity scroll</span></a></li>
-      <li><a href="{{ url_for('find_city') }}"><i class="ion-android-search"></i><span>find in select</span></a></li>
+      <li>
+        <a onclick="render_page('{{ url_for('tabs') }}')">
+          <i class="ion-ios-list"></i>
+          <span>many tabs</span>
+        </a>
+      </li>
 
-      <li><a href="{{ url_for('multi_find') }}"><i class="ion-android-checkbox-outline-blank"></i><span>find with multi choice in select</span></a></li>
-      <li><a href="{{ url_for('popup') }}"><i class="ion-android-checkmark-circle"></i><span>popup</span></a></li>
-        <li><a href="{{ url_for('send_mail') }}"><i class="ion-email-unread"></i><span>send mail</span></a></li>
-      <li><a href="{{ url_for('box') }}"><i class="ion-ios-box"></i><span>open box</span></a></li>
-      <li><a href="{{ url_for('logout') }}"><i class="ion-android-exit"></i><span>exit</span></a></li>
+      <li>
+        <a onclick="render_page('{{ url_for('statistic') }}')">
+          <i class="ion-arrow-graph-up-right"></i>
+          <span>graphic</span>
+         </a>
+      </li>
+      
+      <li>
+        <a onclick="render_page('{{ url_for('cites_inf') }}')">
+          <i class="ion-ios-list-outline"></i>
+          <span>infinity scroll</span>
+        </a>
+      </li>
 
-    {#<li><a href="#"><i class="ion-ios-speedometer-outline"></i><span>Dashboard</span></a></li>
-    <li><a href="#"><i class="ion-chatbubbles"></i><span>Forum</span></a></li>
-    <li class="dropdown" rel="1"><a href="#"><i class="ion-email"></i><span>Messages</span>
-        <ul class="dropdown-1">
-          <li><a href="#"><i class="ion-email"></i><span>Read</span></a></li>
-          <li><a href="#"><i class="ion-email-unread"></i><span>Unread</span></a></li>
-          <li><a href="#"><i class="ion-plus"></i><span>Create Message</span></a></li>
-        </ul></a></li>
-    <li class="dropdown" rel="2"><a href="#"><i class="ion-gear-a"></i><span>Settings</span>
-        <ul class="dropdown-2">
-          <li><a href="#"><i class="ion-person"></i><span>Edit Profile</span></a></li>
-          <li><a href="#"><i class="ion-gear-b"></i><span>Edit Options</span></a></li>
-        </ul></a></li>
-    <li><a href="#"><i class="ion-log-out"></i><span>Logout</span></a></li>#}
+      <li>
+        <a onclick="render_page('{{ url_for('find_city') }}')">
+          <i class="ion-android-search"></i>
+          <span>find in select</span>
+        </a>
+      </li>
+
+      <li>
+        <a onclick="render_page('{{ url_for('multi_find') }}')">
+          <i class="ion-android-checkbox-outline-blank"></i>
+          <span>find with multi choice in select</span>
+        </a>
+      </li>
+
+      <li>
+        <a onclick="render_page('{{ url_for('popup') }}')">
+          <i class="ion-android-checkmark-circle"></i>
+          <span>popup</span>
+        </a>
+      </li>
+
+      <li>
+        <a onclick="render_page('{{ url_for('send_mail') }}')">
+          <i class="ion-email-unread"></i>
+          <span>send mail</span>
+        </a>
+      </li>
+
+      <li>
+        <a onclick="render_page('{{ url_for('box') }}')">
+          <i class="ion-ios-box"></i>
+          <span>open box</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="{{ url_for('logout') }}">
+          <i class="ion-android-exit"></i>
+          <span>exit</span>
+        </a>
+      </li>
+
   </ul>
 </nav>
+
 <div id="wrapper"><span>
     <div style="text-align: center"> {% block header %}<font size="18" color="#f0ffff" face="Bedrock" >my develop </font>{% endblock %}</div>
     <div id="find">{% block filter %}{% endblock %}</div>
 
-    {% block content %}{%endblock %}
+    <div id="main_page_content">
+      привет! тут бужет подгружатся вся инфа по вкладкам ) 
+      
+
+    </div>
+
 </span></div>
 
 <script src="{{ url_for('static', filename='js_menu/jquery-ui.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js_menu/index.js') }}"></script>
 
 
-
-{#<div id="content"></div>#}
 </body>
 </html>

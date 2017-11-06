@@ -1,13 +1,9 @@
-{% extends "boss/layout_boss.html" %}
-{% block heads %}find in select{% endblock %}
-{% block scripts %}
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style_popup.css') }}">
-{% endblock %}
-{% block content %}
+
     <a href="#win1" class="button button-green"><input type="button" value="попап" ></a>
                     <a href="#x" class="overlay" id="win1"></a>
                     <div class="popup">
                         попапчик
                     <a class="close" title="Закрыть" href="#close"></a>
                     </div>
-{% endblock %}

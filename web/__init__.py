@@ -24,6 +24,7 @@ import web.views.view_tabs
 import web.views.view_statistic
 import web.views.view_city
 import web.views.view_mail
+import web.views.main_page
 
 
 def index():
@@ -72,8 +73,10 @@ def sign_in():
         if res.json()['code'] == 1:
             head = res.headers
             if head['role'] == 'boss':
-                resp = make_response(redirect(url_for('google_map')))
+                resp = make_response(redirect(url_for('main_page')))
                 resp.set_cookie('role', 'boss')
+                import random
+                resp.set_cookie('id', str(random.randint))
             else:
                 resp = make_response(render_template('user/firs_user.html'))
                 resp.set_cookie('role', 'user')

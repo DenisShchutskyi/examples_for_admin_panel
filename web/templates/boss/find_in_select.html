@@ -1,10 +1,7 @@
-{% extends "boss/layout_boss.html" %}
-{% block heads %}find in select{% endblock %}
-{% block scripts %}
+
     <script src="{{ url_for('static', filename='js/choosen.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style_chosen.css') }}">
-{% endblock %}
-{% block content %}
+
    <select class="chosen" name="city" >
                 {% for c in cites %}
                     <option value="{{ c[0] }}">{{ c[1] }}</option>
@@ -13,4 +10,3 @@
     <script type="text/javascript">
         $(".chosen").chosen();
     </script>
-{% endblock %}

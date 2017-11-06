@@ -1,6 +1,4 @@
-{% extends "boss/layout_boss.html" %}
-{% block heads %}работа с картами{% endblock %}
-{% block scripts %}
+
 <style>
         #map{
             height: 500px;
@@ -9,22 +7,35 @@
             /*position: static;*/
             margin-top: 10px;
         }
-#map1{
+        #map1{
             height: 500px;
             width: auto;
             /*float: right;*/
             /*position: static;*/
             margin-top: 10px;
         }
+        textarea{  
+                  /* box-sizing: padding-box; */
+                  overflow:hidden;
+                  /* demo only: */
+                  padding:10px;
+                  width:40%;
+                  font-size:14px;
+                  margin:5px left;
+                  display:block;
+                  border-radius:10px;
+                  border:6px solid #556677;
+                }
 
 
     </style>
-{% endblock %}
-{% block content %}
-    <div id="map1"></div>
-    <textarea id="address1" placeholder="address"></textarea><br>
-                    <input type="text" id ="latitude1" name="latitude" size="6" required style="width: 20%">
-                    <input type="text" name="longitude" id ="longitude1" size="6" required style="width: 20%"><br>
+
+    <div id="map1">
+    </div>
+    <textarea id="address1" placeholder="address" rows="3"></textarea><br>
+    <input type="text" id ="latitude1" name="latitude" size="6" required style="width: 20%">
+    <input type="text" name="longitude" id ="longitude1" size="6" required style="width: 20%"><br>
+                    
                     <script>
 
                         function get_addres() {
@@ -94,7 +105,3 @@
                     <script async defer
                             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtdcwr5Dojv-zdFs3IMs1Cl2vAFkpoj08&callback=initMap">
                     </script>
-                    <script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
-
-
-{% endblock %}

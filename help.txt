@@ -1,0 +1,9 @@
+https://github.com/stanlemon/jGrowl		push js plugin
+
+how to run a socket server
+only 1 worker !!! Not more!!
+gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 socket_:app --log-level=INFO --bind 0.0.0.0:5001 --preload
+
+
+about deploy with nginx 
+http://docs.gunicorn.org/en/stable/deploy.html

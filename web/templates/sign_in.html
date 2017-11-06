@@ -31,10 +31,10 @@
       <h2 class="loginTitle">{{ js[request.cookies.get('language')]["Authorization"] }}</h2>
       <div class="loginContent">
         <div class="inputWrapper">
-          <input type="text" placeholder="{{ js[request.cookies.get('language')]["login"] }}" name="login"  pattern="[A-Za-z0-9]{5,}" />
+          <input type="text" placeholder="{{ js[request.cookies.get('language')]["login"] }}" name="login"  pattern="[A-Za-z0-9]{4,}" />
         </div>
         <div class="inputWrapper">
-          <input type="password" placeholder="{{ js[request.cookies.get('language')]["Password"] }}" name="password"  pattern="[A-Za-z0-9]{5,}" />
+          <input type="password" placeholder="{{ js[request.cookies.get('language')]["Password"] }}" name="password"  pattern="[A-Za-z0-9]{4,}" />
         </div>
       </div>
       <button class="blueBox"><span class="iconLogin"></span> {{ js[request.cookies.get('language')]["Sign_in"] }}</button>

@@ -1,7 +1,5 @@
-{% extends "boss/layout_boss.html" %}
-{% block heads %}infinity scroll{% endblock %}
-{% block scripts %}
-    <script>
+
+  <script>
       var next_page = {"next_page": 0, "is_filter": false};
   $(document).ready(function(){
   if( next_page["is_filter"]==false) {
@@ -108,8 +106,7 @@ $(window).scroll(function () {
 
 });
     </script>
-{% endblock %}
-{% block content %}
+
     <table  border="3">
     <tr>
         <th>id</th>
@@ -119,4 +116,3 @@ $(window).scroll(function () {
 
     </tbody>
     </table>
-{% endblock %}
